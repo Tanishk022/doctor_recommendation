@@ -1,4 +1,6 @@
 import pandas as pd
+import os 
+os.system("pip install qrcode")
 import qrcode
 from io import BytesIO
 import joblib
