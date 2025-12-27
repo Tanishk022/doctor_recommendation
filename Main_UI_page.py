@@ -1,3 +1,5 @@
+# This is the main file of UI page
+
 import pandas as pd
 import qrcode
 from io import BytesIO
@@ -102,6 +104,36 @@ if st.session_state.selected_doctor is not None and st.session_state.show_qr:
     doc = st.session_state.selected_doctor
     qr_img = create_qr_code(doc['Name'], doc['Consult Fee'])
     st.success(f"✅ Appointment Booking Initiated for Dr. {doc['Name']}")
+    st.write("Enter Patient Details:")
+    col1, col2 = st.columns([3, 1])
+    with col1:
+        st.text_input("Enter the patient's Name:", key="patient_name", )
+        st.text_input("Enter the patient's contact number:", key="patient_contact", placeholder="e.g., 9876543210")
+        st.text_input("Enter The Patient's Address:", key="patient_address")
+    with col2:
+        st.date_input("Patient's DOB", key="patient_dob", value=pd.to_datetime("2000-01-01"))
+        st.date_input("Select Appointment Date:", key="appointment_date")
+        st.time_input("Select Appointment Time:", key="appointment_time")       
+    if st.button("Submit Patient Details"):
+        # Validate all required fields
+        patient_name = st.session_state.get("patient_name", "").strip()
+        patient_contact = st.session_state.get("patient_contact", "").strip()
+        patient_address = st.session_state.get("patient_address", "").strip()
+        
+        if not patient_name:
+            st.error(" Please enter the patient's name!")
+        elif not patient_contact:
+            st.error(" Please enter a contact number!")
+        elif not patient_contact.isdigit() or len(patient_contact) < 10:
+            st.error(" Please enter a valid 10-digit contact number!")
+        elif not patient_address:
+            st.error(" Please enter the patient's address!")
+        else:
+            st.success(" Patient details submitted successfully!")
+            # st.balloons()
+    else:
+        st.info("Please fill in the patient details and submit before proceeding to payment.")
+    
     st.image(qr_img, caption=f"Scan to Pay ₹{doc['Consult Fee']} via UPI", width=300)
     st.info("After successful payment, you will receive a confirmation message.")
     if st.button("🔙 Back"):
@@ -124,3 +156,4 @@ elif st.session_state.search_results is not None:
                 st.session_state.show_qr = True
                 st.rerun()
         st.markdown("---")
+
