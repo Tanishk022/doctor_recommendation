@@ -1,3 +1,5 @@
+# this file is loading the train data into firebase database
+
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
 import joblib
@@ -35,3 +37,4 @@ joblib.dump(vectors, "vectors.pkl")
 df.to_csv("processed_doctor_data.csv", index=False)
 
 print("✅ Training complete and files saved.")
+
