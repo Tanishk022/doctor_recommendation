@@ -1,4 +1,4 @@
-# this file is loading the train data into firebase database
+# this file is loading from firebase database and then store into .pkl files
 
 import pandas as pd
 from sklearn.feature_extraction.text import TfidfVectorizer
@@ -37,4 +37,5 @@ joblib.dump(vectors, "vectors.pkl")
 df.to_csv("processed_doctor_data.csv", index=False)
 
 print("✅ Training complete and files saved.")
+
 
