@@ -7,12 +7,24 @@ import joblib
 import streamlit as st
 from sklearn.metrics.pairwise import cosine_similarity
 
+# import firebase_admin
+# from firebase_admin import credentials, firestore
+
+# # ---------- FIREBASE CONNECTION ----------
+# if not firebase_admin._apps:
+#     cred = credentials.Certificate("firebasekey.json")
+#     firebase_admin.initialize_app(cred)
+
+# db = firestore.client()
+
+import json
 import firebase_admin
 from firebase_admin import credentials, firestore
 
-# ---------- FIREBASE CONNECTION ----------
+firebase_key = json.loads(st.secrets["FIREBASE_KEY"])
+
 if not firebase_admin._apps:
-    cred = credentials.Certificate("firebasekey.json")
+    cred = credentials.Certificate(firebase_key)
     firebase_admin.initialize_app(cred)
 
 db = firestore.client()
@@ -185,6 +197,7 @@ elif st.session_state.search_results is not None:
                 st.session_state.show_qr = True
                 st.rerun()
         st.markdown("---")
+
 
 
 
