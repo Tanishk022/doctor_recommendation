@@ -130,7 +130,26 @@ if st.session_state.selected_doctor is not None and st.session_state.show_qr:
             st.error(" Please enter the patient's address!")
         else:
             st.success(" Patient details submitted successfully!")
-            # st.balloons()
+            appointment_data = {
+                "patient_name": patient_name,
+                "patient_contact": patient_contact,
+                "patient_address": patient_address,
+                "patient_dob": str(st.session_state.get("patient_dob")),
+                "appointment_date": str(st.session_state.get("appointment_date")),
+                "appointment_time": str(st.session_state.get("appointment_time")),
+                "doctor_name": doc['Name'],
+                "doctor_specialization": doc['specialization'],
+                "consult_fee": int(doc['Consult Fee']),
+                "doctor_city": doc['City'],
+                "payment_status": "pending",
+                "appointment_status": "booked",
+                "created_at": firestore.SERVER_TIMESTAMP
+            }
+
+            db.collection("Patient_appointment_data").add(appointment_data)
+
+            st.success("✅ Appointment saved to Firebase successfully!")
+    
     else:
         st.info("Please fill in the patient details and submit before proceeding to payment.")
     
@@ -156,4 +175,5 @@ elif st.session_state.search_results is not None:
                 st.session_state.show_qr = True
                 st.rerun()
         st.markdown("---")
+
 
