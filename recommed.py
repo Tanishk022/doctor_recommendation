@@ -7,6 +7,16 @@ import joblib
 import streamlit as st
 from sklearn.metrics.pairwise import cosine_similarity
 
+import firebase_admin
+from firebase_admin import credentials, firestore
+
+# ---------- FIREBASE CONNECTION ----------
+if not firebase_admin._apps:
+    cred = credentials.Certificate("firebasekey.json")
+    firebase_admin.initialize_app(cred)
+
+db = firestore.client()
+
 # Load processed filescl
 df = pd.read_csv("processed_doctor_data.csv")
 vectorizer = joblib.load("vectorizer.pkl")
@@ -175,5 +185,6 @@ elif st.session_state.search_results is not None:
                 st.session_state.show_qr = True
                 st.rerun()
         st.markdown("---")
+
 
 
