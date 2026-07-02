@@ -44,3 +44,4 @@ watchdog==6.0.0
 firebase-admin
 keras==2.15.0
 tensorflow==2.15.0
+
